@@ -1,22 +1,22 @@
 package main
 
 import (
-	"go-db/model"
-	"go-db/routes"
+	"go-db/database"
+	"go-db/service"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	model.SetUp()
+	database.SetUp()
 	var router = gin.Default()
 
-	router.GET("/", routes.HomeHandler)
-	router.GET("/users", routes.UsersHandler)
-	router.POST("/add", routes.AddHandler)
-	router.GET("/user/:id", routes.UserHandler)
-	router.PUT("/update/:id/", routes.UpdateUser)
-	router.DELETE("/delete/:id", routes.DeleteUser)
+	router.GET("/", service.HomeHandler)
+	router.GET("/users", service.UsersHandler)
+	router.POST("/add", service.AddHandler)
+	router.GET("/user/:id", service.UserHandler)
+	router.PUT("/update/:id/", service.UpdateUser)
+	router.DELETE("/delete/:id", service.DeleteUser)
 
 	router.Run("localhost:8002")
 }

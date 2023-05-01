@@ -1,4 +1,4 @@
-package model
+package database
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
+var Db *sql.DB
 
 func SetUp() {
 	cfg := mysql.Config{
@@ -22,16 +22,16 @@ func SetUp() {
 	// "root:root@127.0.0.1:3306/admin?sslmode=disabled"
 
 	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	Db, err = sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
 		panic(err)
 	}
 
-	err = db.Ping()
+	err = Db.Ping()
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		_, e := db.Exec(`create table if not exists users (id serial not null unique,name varchar(64) not null,
+		_, e := Db.Exec(`create table if not exists users (id serial not null unique,name varchar(64) not null,
 		email varchar(64) not null unique, password text not null ,primary key(id));`)
 		if e != nil {
 			panic(e)

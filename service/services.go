@@ -1,7 +1,6 @@
-package routes
+package service
 
 import (
-	"fmt"
 	"go-db/model"
 	"net/http"
 	"strconv"
@@ -20,7 +19,6 @@ func UserHandler(c *gin.Context) {
 		return
 	}
 	user, e := model.GetUser(id)
-	fmt.Println("ERROR :::", e.Error())
 	if e != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": e.Error()})
 		return

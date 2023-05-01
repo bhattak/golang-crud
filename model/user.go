@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"go-db/database"
 )
 
 type User struct {
@@ -13,14 +14,14 @@ type User struct {
 
 func CreateUser(user *User) error {
 	statement := `insert into users (name,email,password) values(?,?,?);`
-	_, err := db.Exec(statement, user.Name, user.Email, user.Password)
+	_, err := database.Db.Exec(statement, user.Name, user.Email, user.Password)
 	return err
 }
 
 func GetUser(id int) (User, error) {
 	var user User
 	statement := `select * from users where id = ?;`
-	rows, err := db.Query(statement, id)
+	rows, err := database.Db.Query(statement, id)
 
 	if err != nil {
 		return User{}, err
@@ -42,7 +43,7 @@ func GetUser(id int) (User, error) {
 func GetAllUser() ([]User, error) {
 	var userList []User
 	statement := `select * from users;`
-	rows, err := db.Query(statement)
+	rows, err := database.Db.Query(statement)
 	if err != nil {
 		return []User{}, err
 	}
@@ -59,7 +60,7 @@ func GetAllUser() ([]User, error) {
 
 func UpdateUser(id int, pass string) error {
 	statement := `update users set password = ? where id=?;`
-	_, err := db.Query(statement, pass, id)
+	_, err := database.Db.Query(statement, pass, id)
 	if err != nil {
 		return err
 	}
@@ -68,7 +69,7 @@ func UpdateUser(id int, pass string) error {
 
 func DeleteUser(id int) error {
 	statement := `delete from users where id=?;`
-	_, err := db.Query(statement, id)
+	_, err := database.Db.Query(statement, id)
 	if err != nil {
 		return err
 	}
